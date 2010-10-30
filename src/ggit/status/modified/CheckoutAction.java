@@ -16,9 +16,9 @@ public class CheckoutAction extends Action {
 
 	@Override
 	public void run() {
-		if( MessageDialog.openConfirm(null, "Warning", "Changes in file will be lost") )
-		{
-			Config.execGit("checkout","HEAD",filename);
+		if (MessageDialog.openConfirm(null, "Warning",
+				"Changes in file will be lost")) {
+			Config.execGit("checkout", "HEAD", filename);
 		}
 	}
 }

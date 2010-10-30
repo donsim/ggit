@@ -23,7 +23,7 @@ public class ModifiedInIndexParser extends SimpleStatusParser {
 				return Arrays.asList(new Action[]{
 					new UnStageAction(filename),
 					new CheckoutAction(filename),
-					new DiffAction(filename)
+					new DiffAction(filename,true)
 				}
 				);
 			}

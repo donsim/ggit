@@ -1,6 +1,7 @@
 package ggit.views;
 
 
+import ggit.Config;
 import ggit.status.CompositeAction;
 import ggit.status.FileItem;
 import ggit.status.RefreshStatusAction;
@@ -15,6 +16,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -24,19 +26,16 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TableTreeViewer;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -335,11 +334,17 @@ public class StatusView extends ViewPart {
 
 		commitAction = new Action() {
 			public void run() {
-				showMessage("Action 2 executed");
+				  InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
+				            "Enter commit message", "", "", null);
+				        if (dlg.open() == Window.OK) {
+				          // User clicked OK; update the label with the input
+				        	String value2 = dlg.getValue();
+				        	Config.execGit("commit","-m",value2);
+				        }
 			}
 		};
-		commitAction.setText("Action 2");
-		commitAction.setToolTipText("Action 2 tooltip");
+		commitAction.setText("Commit");
+		commitAction.setToolTipText("Commit all to git");
 		commitAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		doubleClickAction = new Action() {

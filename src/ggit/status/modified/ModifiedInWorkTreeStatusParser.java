@@ -21,7 +21,8 @@ public class ModifiedInWorkTreeStatusParser extends SimpleStatusParser {
 			@Override
 			public Collection<Action> availableActions() {
 				return Arrays.asList(new Action[]{
-					new StageAction(filename)
+					new StageAction(filename),
+					new DiffAction(filename,false)
 				}
 				);
 			}
