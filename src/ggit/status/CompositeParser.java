@@ -6,6 +6,7 @@ import java.util.Collection;
 import ggit.status.added.AddedDeletedStatusParser;
 import ggit.status.added.AddedModifiedStatusParser;
 import ggit.status.added.AddedStatusParser;
+import ggit.status.modified.ModifiedInIndexParser;
 import ggit.status.modified.ModifiedInWorkTreeStatusParser;
 import ggit.status.removed.RemovedInWorkTreeStatusParser;
 import ggit.status.unknown.UnknownStatusParser;
@@ -21,6 +22,7 @@ public class CompositeParser extends Parser {
 					new AddedStatusParser(),
 					new AddedModifiedStatusParser(),
 					new AddedDeletedStatusParser(),
+					new ModifiedInIndexParser(),
 				}
 	);
 

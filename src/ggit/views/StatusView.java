@@ -1,21 +1,41 @@
 package ggit.views;
 
 
-import java.util.Collection;
-
+import ggit.status.CompositeAction;
 import ggit.status.FileItem;
 import ggit.status.RefreshStatusAction;
 import ggit.status.Status;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.action.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 
 /**
@@ -64,8 +84,7 @@ public class StatusView extends ViewPart {
 			{
 				return items.toArray();
 			}
-			return new String[]{"No items"};
-			//return new String[] { "One", "Two", "Three" };
+			return new Object[0];
 		}
 	}
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -176,8 +195,28 @@ public class StatusView extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(refreshAction);
-		manager.add(action2);
+		int[] selection = viewer.getTable().getSelectionIndices();
+		if( selection!=null&&selection.length>0)
+		{
+			ArrayList<Action> all = new ArrayList<Action>();
+			for (int i : selection) {
+				FileItem  fi = (FileItem) viewer.getElementAt(i);
+				Collection<Action> availableActions = fi.availableActions();
+				if(availableActions!=null)
+				{
+					all.addAll(availableActions);
+				}
+			}
+			Collection<Action> joinActions = CompositeAction.joinActions(all);
+			for (Action action : joinActions) {
+				manager.add(action);
+			}
+
+		}else
+		{
+			manager.add(refreshAction);
+			manager.add(action2);
+		}
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}

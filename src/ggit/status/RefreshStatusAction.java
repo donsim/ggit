@@ -31,8 +31,7 @@ public class RefreshStatusAction extends Action {
 	}
 
 	public void run() {
-		this.statusView.showMessage("Refresh action");
-		try {
+			try {
 			String result = Config.execGit("status", "-s");
 			status.setOutput(result);
 			List<String> unrecognized = status.getUnrecognized();

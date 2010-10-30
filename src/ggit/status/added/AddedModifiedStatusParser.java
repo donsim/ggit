@@ -1,11 +1,13 @@
 package ggit.status.added;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jface.action.Action;
 
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.modified.StageAction;
 
 public class AddedModifiedStatusParser extends SimpleStatusParser {
 
@@ -14,14 +16,13 @@ public class AddedModifiedStatusParser extends SimpleStatusParser {
 	}
 
 	@Override
-	protected FileItem createFileItem(String filename) {
+	protected FileItem createFileItem(final String filename) {
 		return new FileItem(filename,"added to index, work tree changed since index", getStatusChars() )
 		{
 
 			@Override
 			public Collection<Action> availableActions() {
-				// TODO Auto-generated method stub
-				return null;
+				return Arrays.asList(new Action[]{new StageAction(filename)});
 			}
 
 		};
