@@ -23,6 +23,12 @@ public class UnknownStatusParser extends SimpleStatusParser {
 				return Arrays.asList(new Action[] { new AddAction(filename) });
 			}
 
+			@Override
+			public boolean isCommitable() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
 		};
 	}
 

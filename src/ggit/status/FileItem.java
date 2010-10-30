@@ -37,4 +37,6 @@ public abstract class FileItem {
 		return shortStatus;
 	}
 
+	public abstract boolean isCommitable();
+
 }

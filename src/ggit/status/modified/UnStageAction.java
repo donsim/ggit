@@ -1,5 +1,7 @@
 package ggit.status.modified;
 
+import ggit.Config;
+
 import org.eclipse.jface.action.Action;
 
 public class UnStageAction extends Action {
@@ -11,4 +13,8 @@ public class UnStageAction extends Action {
 		setText("Unstage");
 	}
 
+	@Override
+	public void run() {
+		Config.execGit("reset","HEAD",filename);
+	}
 }

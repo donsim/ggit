@@ -26,6 +26,11 @@ public class ModifiedInIndexParser extends SimpleStatusParser {
 				);
 			}
 
+			@Override
+			public boolean isCommitable() {
+				return true;
+			}
+
 		};
 	}
 

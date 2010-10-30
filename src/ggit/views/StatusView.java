@@ -22,15 +22,21 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -57,9 +63,9 @@ import org.eclipse.ui.part.ViewPart;
  */
 
 public class StatusView extends ViewPart {
-	private TableViewer viewer;
+	private TreeViewer viewer;
 	private Action refreshAction;
-	private Action action2;
+	private Action commitAction;
 	private Action doubleClickAction;
 	private Status repositoryStatus=new Status();
 
@@ -87,6 +93,85 @@ public class StatusView extends ViewPart {
 			return new Object[0];
 		}
 	}
+
+	class TreeContentProvider implements ITreeContentProvider
+	{
+
+		private static final String COMMITABLE = "Committable";
+		private static final String NOT_COMMITABLE = "Not Committable";
+
+		private Collection<FileItem> getItems()
+		{
+			return repositoryStatus.getItems();
+		}
+
+		@Override
+		public Object[] getChildren(Object parentElement) {
+			ArrayList ret = new ArrayList();
+			for (FileItem fi : getItems()) {
+				if( parentElement.equals(COMMITABLE) == fi.isCommitable() )
+				{
+					ret.add(fi);
+				}
+			}
+			return ret.toArray();
+		}
+
+		@Override
+		public Object getParent(Object element) {
+			FileItem fi= (FileItem) element;
+			return fi.isCommitable()?COMMITABLE:NOT_COMMITABLE;
+		}
+
+		@Override
+		public boolean hasChildren(Object element) {
+			if(COMMITABLE.equals(element)||NOT_COMMITABLE.equals(element))
+			{
+				return getChildren(element).length>0;
+			}
+			return false;
+
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			//return getItems().toArray();
+			if( hasChildren(COMMITABLE))
+			{
+				if(hasChildren(NOT_COMMITABLE))
+				{
+					return new Object[]{COMMITABLE,NOT_COMMITABLE};
+				}else
+				{
+					return new Object[]{COMMITABLE};
+				}
+			}else
+			{
+				if(hasChildren(NOT_COMMITABLE))
+				{
+					return new Object[]{NOT_COMMITABLE};
+				}else
+				{
+					return new Object[0];
+				}
+			}
+		}
+
+		@Override
+		public void dispose() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
+
+
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			if (obj instanceof FileItem) {
@@ -100,7 +185,11 @@ public class StatusView extends ViewPart {
 				}
 				return fi.getDescription();
 			}
-			return getText(obj);
+			if( index==0)
+			{
+				return getText(obj);
+			}
+			return "";
 		}
 		public Image getColumnImage(Object obj, int index) {
 			if( index==0)
@@ -110,8 +199,12 @@ public class StatusView extends ViewPart {
 			return null;
 		}
 		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			 if (obj instanceof FileItem)
+			 {
+				return PlatformUI.getWorkbench().
+						getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			 }
+			return null;
 		}
 	}
 	class NameSorter extends ViewerSorter {
@@ -135,38 +228,42 @@ public class StatusView extends ViewPart {
 		contributeToActionBars();
 	}
 
+
 	private void createTable(Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL|SWT.FULL_SELECTION);
+		//viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL|SWT.FULL_SELECTION);
+		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL|SWT.FULL_SELECTION);
 
 		// setup columns
 
-		TableViewerColumn statusColumn = new TableViewerColumn(viewer,SWT.NONE);
-		statusColumn.getColumn().setText("Status");
-		statusColumn.getColumn().setResizable(true);
-		statusColumn.getColumn().setWidth(50);
+		TreeColumn statusColumn = new TreeColumn(viewer.getTree(),SWT.NONE);
+		statusColumn.setText("Status");
+		statusColumn.setResizable(true);
+		statusColumn.setWidth(50);
 
-		TableViewerColumn fileColumn = new TableViewerColumn(viewer,SWT.NONE);
-		fileColumn.getColumn().setText("File");
-		fileColumn.getColumn().setResizable(true);
-		fileColumn.getColumn().setWidth(300);
+		TreeColumn fileColumn = new TreeColumn(viewer.getTree(),SWT.NONE);
+		fileColumn.setText("File");
+		fileColumn.setResizable(true);
+		fileColumn.setWidth(300);
 
-		TableViewerColumn descriptionColumn = new TableViewerColumn(viewer,SWT.NONE);
-		descriptionColumn.getColumn().setText("File");
-		descriptionColumn.getColumn().setResizable(true);
-		descriptionColumn.getColumn().setWidth(300);
+		TreeColumn descriptionColumn = new TreeColumn(viewer.getTree(),SWT.NONE);
+		descriptionColumn.setText("Description");
+		descriptionColumn.setResizable(true);
+		descriptionColumn.setWidth(300);
 
-		viewer.setContentProvider(new ViewContentProvider());
+		//viewer.setContentProvider(new ViewContentProvider());
+		viewer.setContentProvider(new TreeContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
 		viewer.setInput(getViewSite());
-		viewer.getTable().setLinesVisible(true);
-		viewer.getTable().setHeaderVisible(true);
+		viewer.getTree().setLinesVisible(true);
+		viewer.getTree().setHeaderVisible(true);
 
 	}
 
 	public void refreshView()
 	{
 		viewer.refresh();
+		viewer.expandAll();
 	}
 
 	private void hookContextMenu() {
@@ -191,16 +288,22 @@ public class StatusView extends ViewPart {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(refreshAction);
 		manager.add(new Separator());
-		manager.add(action2);
+		manager.add(commitAction);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		int[] selection = viewer.getTable().getSelectionIndices();
-		if( selection!=null&&selection.length>0)
+		IStructuredSelection selection3 = (IStructuredSelection) viewer.getSelection();
+		if( !selection3.isEmpty())
 		{
+			// category selected, provide actions for all items
+			Object[] array = selection3.toArray();
+			if( array.length==1 && array[0] instanceof String)
+			{
+				array = ((ITreeContentProvider) viewer.getContentProvider()).getChildren(array[0]);
+			}
 			ArrayList<Action> all = new ArrayList<Action>();
-			for (int i : selection) {
-				FileItem  fi = (FileItem) viewer.getElementAt(i);
+			for (Object o : array) {
+				FileItem  fi = (FileItem) o;
 				Collection<Action> availableActions = fi.availableActions();
 				if(availableActions!=null)
 				{
@@ -212,10 +315,11 @@ public class StatusView extends ViewPart {
 				manager.add(action);
 			}
 
-		}else
+		}
+		else
 		{
 			manager.add(refreshAction);
-			manager.add(action2);
+			manager.add(commitAction);
 		}
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -223,20 +327,20 @@ public class StatusView extends ViewPart {
 
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(refreshAction);
-		manager.add(action2);
+		manager.add(commitAction);
 	}
 
 	private void makeActions() {
 		refreshAction = new RefreshStatusAction(this,repositoryStatus);
 
-		action2 = new Action() {
+		commitAction = new Action() {
 			public void run() {
 				showMessage("Action 2 executed");
 			}
 		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+		commitAction.setText("Action 2");
+		commitAction.setToolTipText("Action 2 tooltip");
+		commitAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		doubleClickAction = new Action() {
 			public void run() {

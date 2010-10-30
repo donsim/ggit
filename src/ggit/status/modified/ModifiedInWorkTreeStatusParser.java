@@ -26,6 +26,11 @@ public class ModifiedInWorkTreeStatusParser extends SimpleStatusParser {
 				);
 			}
 
+			@Override
+			public boolean isCommitable() {
+				return false;
+			}
+
 		};
 	}
 

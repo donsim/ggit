@@ -3,7 +3,6 @@
  */
 package ggit.status;
 
-
 import java.util.List;
 
 import ggit.Config;
@@ -25,18 +24,18 @@ public class RefreshStatusAction extends Action {
 		this.status = status;
 		this.setText("Refresh");
 		this.setToolTipText("Refresh staus of repository");
-		this.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_DEF_VIEW));
+		this.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_DEF_VIEW));
 
 	}
 
 	public void run() {
-			try {
+		try {
 			String result = Config.execGit("status", "-s");
 			status.setOutput(result);
 			List<String> unrecognized = status.getUnrecognized();
-			if (unrecognized.size()>0) {
-				this.statusView.showMessage("unrecognized"+unrecognized);
+			if (unrecognized.size() > 0) {
+				this.statusView.showMessage("unrecognized" + unrecognized);
 			}
 			statusView.refreshView();
 		} catch (Exception e) {
