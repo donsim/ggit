@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="GGit"
+            id="ggit">
+      </category>
+      <view
+            name="GGit Status View"
+            icon="icons/sample.gif"
+            category="ggit"
+            class="ggit.views.StatusView"
+            id="ggit.views.StatusView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="ggit.views.StatusView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+
+</plugin>
