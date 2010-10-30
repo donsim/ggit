@@ -3,7 +3,6 @@
  */
 package ggit.status;
 
-import ggit.status.items.FileItem;
 
 abstract public class SimpleStatusParser extends Parser
 {

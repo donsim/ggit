@@ -4,6 +4,8 @@
 package ggit.status;
 
 
+import java.util.List;
+
 import ggit.Config;
 import ggit.views.StatusView;
 
@@ -32,8 +34,11 @@ public class RefreshStatusAction extends Action {
 		this.statusView.showMessage("Refresh action");
 		try {
 			String result = Config.execGit("status", "-s");
-			this.statusView.showMessage("result"+result);
 			status.setOutput(result);
+			List<String> unrecognized = status.getUnrecognized();
+			if (unrecognized.size()>0) {
+				this.statusView.showMessage("unrecognized"+unrecognized);
+			}
 			statusView.refreshView();
 		} catch (Exception e) {
 			throw new RuntimeException(e);

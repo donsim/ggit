@@ -3,10 +3,12 @@ package ggit.status;
 import java.util.Arrays;
 import java.util.Collection;
 
-import ggit.status.items.FileItem;
-import ggit.status.items.modified.ModifiedInWorkTreeStatusParser;
-import ggit.status.items.removed.RemovedInWorkTreeStatusParser;
-import ggit.status.items.unknown.UnknownStatusParser;
+import ggit.status.added.AddedDeletedStatusParser;
+import ggit.status.added.AddedModifiedStatusParser;
+import ggit.status.added.AddedStatusParser;
+import ggit.status.modified.ModifiedInWorkTreeStatusParser;
+import ggit.status.removed.RemovedInWorkTreeStatusParser;
+import ggit.status.unknown.UnknownStatusParser;
 
 
 public class CompositeParser extends Parser {
@@ -16,6 +18,9 @@ public class CompositeParser extends Parser {
 					new UnknownStatusParser(),
 					new RemovedInWorkTreeStatusParser(),
 					new ModifiedInWorkTreeStatusParser(),
+					new AddedStatusParser(),
+					new AddedModifiedStatusParser(),
+					new AddedDeletedStatusParser(),
 				}
 	);
 

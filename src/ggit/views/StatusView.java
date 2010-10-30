@@ -1,6 +1,12 @@
 package ggit.views;
 
 
+import java.util.Collection;
+
+import ggit.status.FileItem;
+import ggit.status.RefreshStatusAction;
+import ggit.status.Status;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
@@ -35,6 +41,7 @@ public class StatusView extends ViewPart {
 	private Action refreshAction;
 	private Action action2;
 	private Action doubleClickAction;
+	private Status repositoryStatus=new Status();
 
 	/*
 	 * The content provider class is responsible for
@@ -52,15 +59,36 @@ public class StatusView extends ViewPart {
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-			return new String[] { "One", "Two", "Three" };
+			Collection<FileItem> items = repositoryStatus.getItems();
+			if( !items.isEmpty() )
+			{
+				return items.toArray();
+			}
+			return new String[]{"No items"};
+			//return new String[] { "One", "Two", "Three" };
 		}
 	}
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
+			if (obj instanceof FileItem) {
+				FileItem fi = (FileItem) obj;
+				if( index==0)
+				{
+					return fi.getShortStatus();
+				}
+				if (index==1) {
+					return fi.getFileName();
+				}
+				return fi.getDescription();
+			}
 			return getText(obj);
 		}
 		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
+			if( index==0)
+			{
+				return getImage(obj);
+			}
+			return null;
 		}
 		public Image getImage(Object obj) {
 			return PlatformUI.getWorkbench().
@@ -81,15 +109,45 @@ public class StatusView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
+		createTable(parent);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+	}
+
+	private void createTable(Composite parent) {
+		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL|SWT.FULL_SELECTION);
+
+		// setup columns
+
+		TableViewerColumn statusColumn = new TableViewerColumn(viewer,SWT.NONE);
+		statusColumn.getColumn().setText("Status");
+		statusColumn.getColumn().setResizable(true);
+		statusColumn.getColumn().setWidth(50);
+
+		TableViewerColumn fileColumn = new TableViewerColumn(viewer,SWT.NONE);
+		fileColumn.getColumn().setText("File");
+		fileColumn.getColumn().setResizable(true);
+		fileColumn.getColumn().setWidth(300);
+
+		TableViewerColumn descriptionColumn = new TableViewerColumn(viewer,SWT.NONE);
+		descriptionColumn.getColumn().setText("File");
+		descriptionColumn.getColumn().setResizable(true);
+		descriptionColumn.getColumn().setWidth(300);
+
+		viewer.setContentProvider(new ViewContentProvider());
+		viewer.setLabelProvider(new ViewLabelProvider());
+		viewer.setSorter(new NameSorter());
+		viewer.setInput(getViewSite());
+		viewer.getTable().setLinesVisible(true);
+		viewer.getTable().setHeaderVisible(true);
+
+	}
+
+	public void refreshView()
+	{
+		viewer.refresh();
 	}
 
 	private void hookContextMenu() {
@@ -130,15 +188,7 @@ public class StatusView extends ViewPart {
 	}
 
 	private void makeActions() {
-		refreshAction = new Action() {
-			public void run() {
-				showMessage("Action 1 executed");
-			}
-		};
-		refreshAction.setText("Action 1");
-		refreshAction.setToolTipText("Action 1 tooltip");
-		refreshAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+		refreshAction = new RefreshStatusAction(this,repositoryStatus);
 
 		action2 = new Action() {
 			public void run() {
@@ -165,7 +215,7 @@ public class StatusView extends ViewPart {
 			}
 		});
 	}
-	private void showMessage(String message) {
+	public void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
 			"GGit Status View",

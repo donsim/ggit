@@ -1,15 +1,16 @@
 package ggit.status;
 
-import ggit.status.items.FileItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Status {
 
 	private Collection<FileItem> items=Collections.emptyList();
+	private List<String> unrecognized=Collections.emptyList();
 	private final Parser parser = new CompositeParser();
 
 
@@ -18,6 +19,7 @@ public class Status {
 	}
 
 	public void setOutput(String result) {
+		unrecognized = new ArrayList<String>();
 		items = new ArrayList<FileItem>();
 		StringTokenizer lineTokenizer = new StringTokenizer(result,"\n");
 		while (lineTokenizer.hasMoreTokens() ){
@@ -30,7 +32,14 @@ public class Status {
 		FileItem parsed = parser.parsed(line);
 		if (parsed != null) {
 			items.add(parsed);
+		}else
+		{
+			unrecognized.add(line);
 		}
+	}
+
+	public List<String> getUnrecognized() {
+		return unrecognized;
 	}
 
 }
