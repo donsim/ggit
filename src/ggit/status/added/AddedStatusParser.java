@@ -30,7 +30,6 @@ public class AddedStatusParser extends SimpleStatusParser {
 
 			@Override
 			public boolean isCommitable() {
-				// TODO Auto-generated method stub
 				return true;
 			}
 
