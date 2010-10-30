@@ -10,6 +10,7 @@ package ggit.status;
  */
 abstract class Parser
 {
+
 	/**
 	 * @param line
 	 * @return created File Item

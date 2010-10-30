@@ -25,7 +25,7 @@ public class RefreshStatusAction extends Action {
 		this.setText("Refresh");
 		this.setToolTipText("Refresh staus of repository");
 		this.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_DEF_VIEW));
+				.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
 
 	}
 

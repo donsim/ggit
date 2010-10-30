@@ -346,7 +346,7 @@ public class StatusView extends ViewPart {
 		commitAction.setText("Commit");
 		commitAction.setToolTipText("Commit all to git");
 		commitAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+				getImageDescriptor(ISharedImages.IMG_TOOL_FORWARD));
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
