@@ -1,20 +1,18 @@
 package ggit.status.modified;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import ggit.Config;
 import ggit.status.FileAction;
+
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.eclipse.jface.dialogs.IconAndMessageDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 public class DiffAction extends FileAction {
 

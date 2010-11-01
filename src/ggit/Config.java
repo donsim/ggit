@@ -3,16 +3,22 @@ package ggit;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jface.preference.IPreferenceStore;
+
 public class Config {
 
 	public static String getGitExecutable()
 	{
-		return "C:\\git\\bin\\git.exe";
-
+		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
+		return  preferenceStore.getString(Activator.GIT_LOCATION);
+		//return "C:\\git\\bin\\git.exe";
 	}
 
 	public static File getWorkDir() {
-		return new File("F:\\work\\ggit");
+
+		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
+		String string = preferenceStore.getString(Activator.WORKDIR_LOCATION);
+		return new File(string);
 	}
 
 	public static String execGit(String ...args)

@@ -1,5 +1,6 @@
 package ggit;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -12,9 +13,21 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "ggit";
 
+	//The identifiers for the preferences
+	public static final String GIT_LOCATION = "Git Location";
+	public static final String WORKDIR_LOCATION = "WorkDir";
+
+	//The default values for the preferences
+	public static final String DEFAULT_GIT_LOCATION  = "C:\\git\\bin\\git.exe";
+	public static final String DEFAULT_WORKDIR_LOCATION = "f:\\work\\ggit";
+
+
+
+
+
 	// The shared instance
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -57,5 +70,14 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	/**
+	 * Initializes a preference store with default preference values
+	 * for this plug-in.
+	 */
+	protected void initializeDefaultPreferences(IPreferenceStore store) {
+		store.setDefault(GIT_LOCATION, DEFAULT_GIT_LOCATION);
+		store.setDefault(WORKDIR_LOCATION, DEFAULT_WORKDIR_LOCATION);
 	}
 }

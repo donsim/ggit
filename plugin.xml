@@ -29,4 +29,11 @@
       </perspectiveExtension>
    </extension>
 
+   <extension point="org.eclipse.ui.preferencePages">
+ 	<page id="GGitPreferencePage"
+ 		name="GGit"
+    		class="ggit.preferences.PreferencesPage">
+   	</page>
+</extension>
+
 </plugin>
