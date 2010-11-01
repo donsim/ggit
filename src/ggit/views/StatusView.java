@@ -386,11 +386,17 @@ public class StatusView extends ViewPart {
 			}
 		});
 	}
-	 void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"GGit Status View",
-			message);
+	 void showMessage(final String message) {
+		 Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				MessageDialog.openInformation(
+						viewer.getControl().getShell(),
+						"GGit Status View",
+						message);
+			}
+		};
+		getSite().getShell().getDisplay().asyncExec(runnable);
 	}
 
 	/**
