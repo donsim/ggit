@@ -30,6 +30,11 @@ public class ModifiedInIndexAndInWorkDirParser extends SimpleStatusParser {
 				return false;
 			}
 
+			@Override
+			protected String getImageFileName() {
+				return "modified.png";
+			}
+
 		};
 	}
 

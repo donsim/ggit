@@ -29,6 +29,11 @@ public class RemovedInIndexStatusParser extends SimpleStatusParser {
 			public boolean isCommitable() {
 				return true;
 			}
+
+			@Override
+			protected String getImageFileName() {
+				return "removed.png";
+			}
 		};
 	}
 

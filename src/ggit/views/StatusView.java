@@ -1,15 +1,21 @@
 package ggit.views;
 
 
+import ggit.Activator;
 import ggit.Config;
 import ggit.status.CompositeAction;
 import ggit.status.FileAction;
 import ggit.status.FileItem;
 import ggit.status.Status;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -18,6 +24,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -41,6 +48,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 
 /**
@@ -200,8 +208,12 @@ public class StatusView extends ViewPart {
 		public Image getImage(Object obj) {
 			 if (obj instanceof FileItem)
 			 {
-				return PlatformUI.getWorkbench().
-						getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+
+				    FileItem fileItem = (FileItem) obj;
+				    return fileItem.getImage();
+
+//				return PlatformUI.getWorkbench().
+//						getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
 			 }
 			return null;
 		}

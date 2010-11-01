@@ -29,6 +29,11 @@ public class RemovedInWorkTreeStatusParser extends SimpleStatusParser {
 				// TODO Auto-generated method stub
 				return false;
 			}
+
+			@Override
+			protected String getImageFileName() {
+				return "removed.png";
+			}
 		};
 	}
 

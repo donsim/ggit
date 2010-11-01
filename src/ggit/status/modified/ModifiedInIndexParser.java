@@ -32,6 +32,11 @@ public class ModifiedInIndexParser extends SimpleStatusParser {
 				return true;
 			}
 
+			@Override
+			protected String getImageFileName() {
+				return "modified.png";
+			}
+
 		};
 	}
 

@@ -31,6 +31,11 @@ public class ModifiedInWorkTreeStatusParser extends SimpleStatusParser {
 				return false;
 			}
 
+			@Override
+			protected String getImageFileName() {
+				return "modified.png";
+			}
+
 		};
 	}
 

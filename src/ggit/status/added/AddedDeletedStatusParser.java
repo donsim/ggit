@@ -29,6 +29,11 @@ public class AddedDeletedStatusParser extends SimpleStatusParser {
 				return false;
 			}
 
+			@Override
+			protected String getImageFileName() {
+				return "added.png";
+			}
+
 		};
 	}
 
