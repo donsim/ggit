@@ -3,9 +3,9 @@ package ggit.views;
 
 import ggit.Config;
 import ggit.status.CompositeAction;
+import ggit.status.FileAction;
 import ggit.status.FileItem;
 import ggit.status.Status;
-import ggit.status.FileAction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -106,7 +106,7 @@ public class StatusView extends ViewPart {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			ArrayList ret = new ArrayList();
+			ArrayList<FileItem> ret = new ArrayList<FileItem>();
 			for (FileItem fi : getItems()) {
 				if( parentElement.equals(COMMITABLE) == fi.isCommitable() )
 				{

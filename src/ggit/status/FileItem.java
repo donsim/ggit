@@ -1,10 +1,6 @@
 package ggit.status;
 
-import ggit.views.StatusView;
-
 import java.util.Collection;
-
-import org.eclipse.jface.action.Action;
 
 /**
  * One file or directory for managed entry in git.

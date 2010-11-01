@@ -2,7 +2,6 @@ package ggit.status.modified;
 
 import ggit.Config;
 import ggit.status.FileAction;
-import ggit.views.StatusView;
 
 public class StageAction extends FileAction{
 
