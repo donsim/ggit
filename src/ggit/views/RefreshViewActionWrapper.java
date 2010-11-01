@@ -21,7 +21,7 @@ public class RefreshViewActionWrapper extends Action {
 	@Override
 	public void run() {
 		old.run();
-		view.refereshStatus();
+		view.updateStatus();
 	}
 
 }

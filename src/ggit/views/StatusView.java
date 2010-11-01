@@ -225,6 +225,7 @@ public class StatusView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		this.updateStatus();
 	}
 
 
@@ -259,7 +260,7 @@ public class StatusView extends ViewPart {
 
 	}
 
-	 void refereshStatus()
+	 void updateStatus()
 	{
 		this.refreshAction.run();
 	}
@@ -364,6 +365,7 @@ public class StatusView extends ViewPart {
 				          // User clicked OK; update the label with the input
 				        	String value2 = dlg.getValue();
 				        	Config.execGit("commit","-m",value2);
+				        	updateStatus();
 				        }
 			}
 		};
@@ -399,6 +401,7 @@ public class StatusView extends ViewPart {
 		};
 		getSite().getShell().getDisplay().asyncExec(runnable);
 	}
+
 
 	/**
 	 * Passing the focus request to the viewer's control.
