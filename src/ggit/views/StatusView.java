@@ -8,14 +8,9 @@ import ggit.status.FileAction;
 import ggit.status.FileItem;
 import ggit.status.Status;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -24,7 +19,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -48,7 +42,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.osgi.framework.Bundle;
 
 
 /**
@@ -219,11 +212,7 @@ public class StatusView extends ViewPart {
 			 }
 			 if( COMMITABLE.equals(obj))
 			 {
-					Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-			        IPath path = new Path("icons/staged.png");
-			        URL[] findEntries = FileLocator.findEntries(bundle, path);
-			        ImageDescriptor desc = ImageDescriptor.createFromURL(findEntries[0]);
-			        return desc.createImage();
+			        return Activator.getImage("staged.png");
 			 }
 			return null;
 		}
@@ -398,8 +387,7 @@ public class StatusView extends ViewPart {
 		};
 		commitAction.setText("Commit");
 		commitAction.setToolTipText("Commit all to git");
-		commitAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_TOOL_FORWARD));
+		commitAction.setImageDescriptor(Activator.getImageDescriptor("icons/staged.png"));
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();

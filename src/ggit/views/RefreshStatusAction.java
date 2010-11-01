@@ -5,6 +5,7 @@ package ggit.views;
 
 import java.util.List;
 
+import ggit.Activator;
 import ggit.Config;
 import ggit.status.Status;
 
@@ -40,8 +41,7 @@ public class RefreshStatusAction extends Action{
 		this.status = status;
 		this.setText("Refresh");
 		this.setToolTipText("Refresh staus of repository");
-		this.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
+		this.setImageDescriptor(Activator.getImageDescriptor("icons/refresh.png"));
 
 	}
 

@@ -1,8 +1,18 @@
 package ggit;
 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -27,6 +37,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+
+	private static Map<String, Image> imageMap=new HashMap<String, Image>();
 
 	/**
 	 * The constructor
@@ -80,4 +92,20 @@ public class Activator extends AbstractUIPlugin {
 		store.setDefault(GIT_LOCATION, DEFAULT_GIT_LOCATION);
 		store.setDefault(WORKDIR_LOCATION, DEFAULT_WORKDIR_LOCATION);
 	}
+
+	public static Image getImage(String name)
+	{
+		if( imageMap.containsKey(name ))
+		{
+			return imageMap.get(name);
+		}
+		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+	    IPath path = new Path("icons/"+name);
+	    URL[] findEntries = FileLocator.findEntries(bundle, path);
+	    ImageDescriptor desc = ImageDescriptor.createFromURL(findEntries[0]);
+	    Image createImage = desc.createImage();
+	    imageMap.put(name, createImage);
+		return createImage;
+	}
+
 }
