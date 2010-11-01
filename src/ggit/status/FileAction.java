@@ -6,8 +6,9 @@ public class FileAction extends Action {
 
 	protected final String fileName;
 
-	public FileAction(String filename){
+	public FileAction(String filename, String text){
 		fileName = filename;
+		this.setText(text);
 	}
 
 	public String getFileName() {

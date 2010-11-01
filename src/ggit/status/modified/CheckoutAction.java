@@ -8,8 +8,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 public class CheckoutAction extends FileAction{
 
 	public CheckoutAction(String filename) {
-		super(filename);
-		setText("Checkout");
+		super(filename,"Checkout");
 	}
 
 	@Override

@@ -6,8 +6,7 @@ import ggit.status.FileAction;
 public class AddAction extends FileAction {
 
 	public AddAction(String filename) {
-		super(filename);
-		setText("Add");
+		super(filename, "Add");
 	}
 
 	@Override

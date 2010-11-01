@@ -19,12 +19,13 @@ public class UnknownStatusParser extends SimpleStatusParser {
 
 			@Override
 			public Collection<FileAction> availableActions() {
-				return Arrays.asList(new FileAction[] { new AddAction(filename) });
+				return Arrays.asList(new FileAction[] { new AddAction(filename),
+						new IgnoreAction(filename),
+						new RemoveFileAction(filename)});
 			}
 
 			@Override
 			public boolean isCommitable() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 

@@ -7,8 +7,7 @@ public class UnStageAction extends FileAction{
 
 
 	public UnStageAction(String filename) {
-		super(filename);
-		setText("Unstage");
+		super(filename, "Unstage");
 	}
 
 	@Override

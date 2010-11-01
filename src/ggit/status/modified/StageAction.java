@@ -7,9 +7,7 @@ public class StageAction extends FileAction{
 
 
 	public StageAction(String filename) {
-		super(filename);
-		setText("Stage");
-		setToolTipText(getText()+" "+filename);
+		super(filename, "Stage");
 	}
 
 

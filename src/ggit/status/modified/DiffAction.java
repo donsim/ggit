@@ -19,9 +19,8 @@ public class DiffAction extends FileAction {
 	private final boolean againstHead;
 
 	public DiffAction(String filename, boolean againstHead) {
-		super(filename);
+		super(filename,"Diff");
 		this.againstHead = againstHead;
-		setText("Diff");
 	}
 
 	@Override
