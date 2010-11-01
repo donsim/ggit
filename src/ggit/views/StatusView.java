@@ -76,6 +76,10 @@ public class StatusView extends ViewPart {
 	private Action doubleClickAction;
 	private Status repositoryStatus=new Status();
 
+	private static final String COMMITABLE = "Committable";
+	private static final String NOT_COMMITABLE = "Not Committable";
+
+
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -104,8 +108,6 @@ public class StatusView extends ViewPart {
 	class TreeContentProvider implements ITreeContentProvider
 	{
 
-		private static final String COMMITABLE = "Committable";
-		private static final String NOT_COMMITABLE = "Not Committable";
 
 		private Collection<FileItem> getItems()
 		{
@@ -214,6 +216,14 @@ public class StatusView extends ViewPart {
 
 //				return PlatformUI.getWorkbench().
 //						getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			 }
+			 if( COMMITABLE.equals(obj))
+			 {
+					Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+			        IPath path = new Path("icons/staged.png");
+			        URL[] findEntries = FileLocator.findEntries(bundle, path);
+			        ImageDescriptor desc = ImageDescriptor.createFromURL(findEntries[0]);
+			        return desc.createImage();
 			 }
 			return null;
 		}
