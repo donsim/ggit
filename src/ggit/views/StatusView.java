@@ -259,11 +259,29 @@ public class StatusView extends ViewPart {
 
 	}
 
-	public void refreshView()
+	public void refreshViewAssync()
 	{
-		viewer.refresh();
-		viewer.expandAll();
+		getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				viewer.getTree().setEnabled(true);
+				viewer.refresh();
+				viewer.expandAll();
+			}
+		});
 	}
+
+
+	public void markAsOutdated()
+	{
+		getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				viewer.getTree().setEnabled(false);
+			}
+		});
+	}
+
 
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");

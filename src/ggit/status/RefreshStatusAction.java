@@ -12,7 +12,24 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-public class RefreshStatusAction extends Action {
+public class RefreshStatusAction extends Action{
+	private final class UpdateStatusRunnable implements Runnable {
+		@Override
+		public void run() {
+
+			statusView.markAsOutdated();
+
+			String result = Config.execGit("status", "-s");
+			status.setOutput(result);
+			List<String> unrecognized = status.getUnrecognized();
+			if (unrecognized.size() > 0) {
+				statusView.showMessage("unrecognized" + unrecognized);
+			}
+
+			statusView.refreshViewAssync();
+		}
+	}
+
 	private final StatusView statusView;
 	private final Status status;
 
@@ -31,13 +48,8 @@ public class RefreshStatusAction extends Action {
 
 	public void run() {
 		try {
-			String result = Config.execGit("status", "-s");
-			status.setOutput(result);
-			List<String> unrecognized = status.getUnrecognized();
-			if (unrecognized.size() > 0) {
-				this.statusView.showMessage("unrecognized" + unrecognized);
-			}
-			statusView.refreshView();
+			Runnable runnable = new UpdateStatusRunnable();
+			new Thread(runnable).start();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
