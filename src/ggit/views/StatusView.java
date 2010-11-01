@@ -5,7 +5,7 @@ import ggit.Config;
 import ggit.status.CompositeAction;
 import ggit.status.FileItem;
 import ggit.status.Status;
-import ggit.status.StatusAction;
+import ggit.status.FileAction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -259,7 +259,7 @@ public class StatusView extends ViewPart {
 
 	}
 
-	public void refereshStatus()
+	 void refereshStatus()
 	{
 		this.refreshAction.run();
 	}
@@ -326,15 +326,16 @@ public class StatusView extends ViewPart {
 			ArrayList<Action> all = new ArrayList<Action>();
 			for (Object o : array) {
 				FileItem  fi = (FileItem) o;
-				Collection<StatusAction> availableActions = fi.availableActions(this);
+				Collection<FileAction> availableActions = fi.availableActions();
 				if(availableActions!=null)
 				{
 					all.addAll(availableActions);
 				}
 			}
 			Collection<Action> joinActions = CompositeAction.joinActions(all);
+
 			for (Action action : joinActions) {
-				manager.add(action);
+				manager.add( new RefreshViewActionWrapper(action,this));
 			}
 
 		}

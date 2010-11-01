@@ -1,22 +1,18 @@
 package ggit.status.unknown;
 
 import ggit.Config;
-import ggit.status.StatusAction;
-import ggit.views.StatusView;
+import ggit.status.FileAction;
 
-public class AddAction extends StatusAction {
+public class AddAction extends FileAction {
 
-	private final String filename;
-
-	public AddAction(String filename, StatusView view) {
-		super(view);
-		this.filename = filename;
+	public AddAction(String filename) {
+		super(filename);
 		setText("Add");
 	}
 
 	@Override
 	public void run() {
-		Config.execGit("add",filename);
+		Config.execGit("add", getFileName());
 	}
 
 }

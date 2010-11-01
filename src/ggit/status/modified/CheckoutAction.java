@@ -1,18 +1,14 @@
 package ggit.status.modified;
 
 import ggit.Config;
-import ggit.status.StatusAction;
-import ggit.views.StatusView;
+import ggit.status.FileAction;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class CheckoutAction extends StatusAction{
+public class CheckoutAction extends FileAction{
 
-	private final String filename;
-
-	public CheckoutAction(String filename, StatusView view) {
-		super(view);
-		this.filename = filename;
+	public CheckoutAction(String filename) {
+		super(filename);
 		setText("Checkout");
 	}
 
@@ -20,7 +16,7 @@ public class CheckoutAction extends StatusAction{
 	public void run() {
 		if (MessageDialog.openConfirm(null, "Warning",
 				"Changes in file will be lost")) {
-			Config.execGit("checkout", "HEAD", filename);
+			Config.execGit("checkout", "HEAD", getFileName());
 		}
 	}
 }

@@ -25,7 +25,7 @@ public abstract class FileItem {
 		this.shortStatus = shortStatus;
 	}
 
-	public abstract Collection<StatusAction> availableActions(StatusView view);
+	public abstract Collection<FileAction> availableActions();
 
 	public String getFileName() {
 		return fileName;

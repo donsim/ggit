@@ -3,6 +3,7 @@ package ggit.status;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.jface.action.Action;
@@ -40,7 +41,7 @@ public class CompositeAction  extends Action{
 
 	public static Collection<Action> joinActions(Collection<Action> actions)
 	{
-		Map<String, Action> byName = new HashMap<String, Action>();
+		Map<String, Action> byName = new LinkedHashMap<String, Action>();
 		for (Action action : actions) {
 			if (byName.containsKey(action.getText())) {
 				Action withSameName = byName.get(action.getText());

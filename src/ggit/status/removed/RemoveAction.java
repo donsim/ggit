@@ -1,13 +1,12 @@
-package ggit.status.modified;
+package ggit.status.removed;
 
 import ggit.Config;
 import ggit.status.FileAction;
-import ggit.views.StatusView;
 
-public class StageAction extends FileAction{
+ class RemoveAction extends FileAction{
 
 
-	public StageAction(String filename) {
+	public RemoveAction(String filename) {
 		super(filename);
 		setText("Stage");
 		setToolTipText(getText()+" "+filename);
@@ -16,7 +15,7 @@ public class StageAction extends FileAction{
 
 	@Override
 	public void run() {
-		Config.execGit("add",getFileName());
+		Config.execGit("rm",getFileName());
 	}
 
 

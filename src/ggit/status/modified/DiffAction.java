@@ -1,19 +1,16 @@
 package ggit.status.modified;
 
 import ggit.Config;
-import ggit.status.StatusAction;
-import ggit.views.StatusView;
+import ggit.status.FileAction;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class DiffAction extends StatusAction {
+public class DiffAction extends FileAction {
 
-	private final String filename;
 	private final boolean againstHead;
 
-	public DiffAction(String filename, boolean againstHead,StatusView view) {
-		super(view);
-		this.filename = filename;
+	public DiffAction(String filename, boolean againstHead) {
+		super(filename);
 		this.againstHead = againstHead;
 		setText("Diff");
 	}
@@ -22,11 +19,11 @@ public class DiffAction extends StatusAction {
 	public void run() {
 		String execGit;
 		if (againstHead) {
-			execGit = Config.execGit("diff","HEAD",filename);
+			execGit = Config.execGit("diff","HEAD",getFileName());
 		}else
 		{
-			execGit = Config.execGit("diff",filename);
+			execGit = Config.execGit("diff",getFileName());
 		}
-		MessageDialog.openInformation(null, "Diff for "+filename, execGit);
+		MessageDialog.openInformation(null, "Diff for "+getFileName(), execGit);
 	}
 }

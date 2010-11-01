@@ -1,21 +1,19 @@
 package ggit.status.modified;
 
 import ggit.Config;
-import ggit.status.StatusAction;
+import ggit.status.FileAction;
 import ggit.views.StatusView;
 
-public class UnStageAction extends StatusAction{
+public class UnStageAction extends FileAction{
 
-	private final String filename;
 
-	public UnStageAction(String filename, StatusView view) {
-		super(view);
-		this.filename = filename;
+	public UnStageAction(String filename) {
+		super(filename);
 		setText("Unstage");
 	}
 
 	@Override
 	public void run() {
-		Config.execGit("reset","HEAD",filename);
+		Config.execGit("reset","HEAD",getFileName());
 	}
 }

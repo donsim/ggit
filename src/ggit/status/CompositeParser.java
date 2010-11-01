@@ -9,6 +9,7 @@ import ggit.status.added.AddedStatusParser;
 import ggit.status.modified.ModifiedInIndexAndInWorkDirParser;
 import ggit.status.modified.ModifiedInIndexParser;
 import ggit.status.modified.ModifiedInWorkTreeStatusParser;
+import ggit.status.removed.RemovedInIndexStatusParser;
 import ggit.status.removed.RemovedInWorkTreeStatusParser;
 import ggit.status.unknown.UnknownStatusParser;
 
@@ -25,6 +26,7 @@ public class CompositeParser extends Parser {
 					new AddedDeletedStatusParser(),
 					new ModifiedInIndexParser(),
 					new ModifiedInIndexAndInWorkDirParser(),
+					new RemovedInIndexStatusParser(),
 				}
 	);
 
