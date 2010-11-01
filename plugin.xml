@@ -10,7 +10,7 @@
       </category>
       <view
             name="GGit Status View"
-            icon="icons/sample.gif"
+            icon="icons/git.png"
             category="ggit"
             class="ggit.views.StatusView"
             id="ggit.views.StatusView">

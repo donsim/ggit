@@ -238,7 +238,7 @@ public class StatusView extends ViewPart {
 		TreeColumn statusColumn = new TreeColumn(viewer.getTree(),SWT.NONE);
 		statusColumn.setText("Status");
 		statusColumn.setResizable(true);
-		statusColumn.setWidth(50);
+		statusColumn.setWidth(100);
 
 		TreeColumn fileColumn = new TreeColumn(viewer.getTree(),SWT.NONE);
 		fileColumn.setText("File");
@@ -316,6 +316,17 @@ public class StatusView extends ViewPart {
 
 	private void fillContextMenu(IMenuManager manager) {
 		IStructuredSelection selection3 = (IStructuredSelection) viewer.getSelection();
+		ArrayList<Action> actions = getActionsForSelection(selection3);
+		for (Action action : actions) {
+			manager.add( new RefreshViewActionWrapper(action,this));
+		}
+		// Other plug-ins can contribute there actions here
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+	}
+
+	private ArrayList<Action> getActionsForSelection(
+			IStructuredSelection selection3) {
+		ArrayList<Action> actions = new ArrayList<Action>();
 		if( !selection3.isEmpty())
 		{
 			// category selected, provide actions for all items
@@ -333,20 +344,14 @@ public class StatusView extends ViewPart {
 					all.addAll(availableActions);
 				}
 			}
-			Collection<Action> joinActions = CompositeAction.joinActions(all);
-
-			for (Action action : joinActions) {
-				manager.add( new RefreshViewActionWrapper(action,this));
-			}
-
+			actions.addAll( CompositeAction.joinActions(all));
 		}
 		else
 		{
-			manager.add(refreshAction);
-			manager.add(commitAction);
+			actions.add(refreshAction);
+			actions.add(commitAction);
 		}
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		return actions;
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -376,6 +381,15 @@ public class StatusView extends ViewPart {
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
+				ArrayList<Action> actions = getActionsForSelection((IStructuredSelection) selection);
+				for (Action action : actions) {
+					if( action.getText().startsWith("Diff"))
+					{
+						new RefreshViewActionWrapper(action, StatusView.this).run();
+						return;
+					}
+				}
+
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				showMessage("Double-click detected on "+obj.toString());
 			}
