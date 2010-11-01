@@ -1,15 +1,16 @@
 package ggit.status.modified;
 
 import ggit.Config;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
-import org.eclipse.jface.action.Action;
-
-public class StageAction extends Action {
+public class StageAction extends StatusAction{
 
 	private final String filename;
 
 
-	public StageAction(String filename) {
+	public StageAction(String filename, StatusView view) {
+		super(view);
 		this.filename = filename;
 		setText("Stage");
 		setToolTipText(getText()+" "+filename);
@@ -19,6 +20,7 @@ public class StageAction extends Action {
 	@Override
 	public void run() {
 		Config.execGit("add",filename);
+		refresh();
 	}
 
 

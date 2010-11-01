@@ -2,6 +2,8 @@ package ggit.status.modified;
 
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,10 +21,10 @@ public class ModifiedInWorkTreeStatusParser extends SimpleStatusParser {
 		return new FileItem(filename, "work tree changed since index",getStatusChars() )
 		{
 			@Override
-			public Collection<Action> availableActions() {
-				return Arrays.asList(new Action[]{
-					new StageAction(filename),
-					new DiffAction(filename,false)
+			public Collection<StatusAction> availableActions(StatusView view) {
+				return Arrays.asList(new StatusAction[]{
+					new StageAction(filename,view),
+					new DiffAction(filename,false,view)
 				}
 				);
 			}

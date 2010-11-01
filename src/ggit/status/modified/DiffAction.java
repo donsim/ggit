@@ -1,16 +1,18 @@
 package ggit.status.modified;
 
 import ggit.Config;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class DiffAction extends Action {
+public class DiffAction extends StatusAction {
 
 	private final String filename;
 	private final boolean againstHead;
 
-	public DiffAction(String filename, boolean againstHead) {
+	public DiffAction(String filename, boolean againstHead,StatusView view) {
+		super(view);
 		this.filename = filename;
 		this.againstHead = againstHead;
 		setText("Diff");

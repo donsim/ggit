@@ -6,6 +6,8 @@ import org.eclipse.jface.action.Action;
 
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
 public class AddedDeletedStatusParser extends SimpleStatusParser {
 
@@ -19,7 +21,7 @@ public class AddedDeletedStatusParser extends SimpleStatusParser {
 		{
 
 			@Override
-			public Collection<Action> availableActions() {
+			public Collection<StatusAction> availableActions(StatusView view) {
 				// TODO Auto-generated method stub
 				return null;
 			}

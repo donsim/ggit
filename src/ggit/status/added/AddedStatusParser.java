@@ -1,13 +1,13 @@
 package ggit.status.added;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.eclipse.jface.action.Action;
-
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.StatusAction;
 import ggit.status.modified.UnStageAction;
+import ggit.views.StatusView;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 public class AddedStatusParser extends SimpleStatusParser {
 
@@ -21,9 +21,9 @@ public class AddedStatusParser extends SimpleStatusParser {
 		{
 
 			@Override
-			public Collection<Action> availableActions() {
-				return Arrays.asList(new Action[]{
-					new UnStageAction(filename)
+			public Collection<StatusAction> availableActions(StatusView view) {
+				return Arrays.asList(new StatusAction[]{
+					new UnStageAction(filename,view)
 				}
 				);
 			}

@@ -1,12 +1,12 @@
 package ggit.status.modified;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.eclipse.jface.action.Action;
-
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 public class ModifiedInIndexAndInWorkDirParser extends SimpleStatusParser {
 
@@ -19,9 +19,9 @@ public class ModifiedInIndexAndInWorkDirParser extends SimpleStatusParser {
 		return new FileItem(filename, " Changed but not updated",getStatusChars() )
 		{
 			@Override
-			public Collection<Action> availableActions() {
-				return Arrays.asList(new Action[]{
-					new StageAction(filename)
+			public Collection<StatusAction> availableActions(StatusView view) {
+				return Arrays.asList(new StatusAction[]{
+					new StageAction(filename,view)
 				}
 				);
 			}

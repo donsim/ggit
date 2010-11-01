@@ -4,8 +4,8 @@ package ggit.views;
 import ggit.Config;
 import ggit.status.CompositeAction;
 import ggit.status.FileItem;
-import ggit.status.RefreshStatusAction;
 import ggit.status.Status;
+import ggit.status.StatusAction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -259,7 +259,12 @@ public class StatusView extends ViewPart {
 
 	}
 
-	public void refreshViewAssync()
+	public void refereshStatus()
+	{
+		this.refreshAction.run();
+	}
+
+	void refreshViewAssync()
 	{
 		getSite().getShell().getDisplay().asyncExec(new Runnable() {
 			@Override
@@ -272,7 +277,7 @@ public class StatusView extends ViewPart {
 	}
 
 
-	public void markAsOutdated()
+	 void markAsOutdated()
 	{
 		getSite().getShell().getDisplay().asyncExec(new Runnable() {
 			@Override
@@ -321,7 +326,7 @@ public class StatusView extends ViewPart {
 			ArrayList<Action> all = new ArrayList<Action>();
 			for (Object o : array) {
 				FileItem  fi = (FileItem) o;
-				Collection<Action> availableActions = fi.availableActions();
+				Collection<StatusAction> availableActions = fi.availableActions(this);
 				if(availableActions!=null)
 				{
 					all.addAll(availableActions);
@@ -381,7 +386,7 @@ public class StatusView extends ViewPart {
 			}
 		});
 	}
-	public void showMessage(String message) {
+	 void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
 			"GGit Status View",

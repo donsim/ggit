@@ -7,7 +7,9 @@ import org.eclipse.jface.action.Action;
 
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.StatusAction;
 import ggit.status.modified.StageAction;
+import ggit.views.StatusView;
 
 public class AddedModifiedStatusParser extends SimpleStatusParser {
 
@@ -21,8 +23,8 @@ public class AddedModifiedStatusParser extends SimpleStatusParser {
 		{
 
 			@Override
-			public Collection<Action> availableActions() {
-				return Arrays.asList(new Action[]{new StageAction(filename)});
+			public Collection<StatusAction> availableActions(StatusView view) {
+				return Arrays.asList(new StatusAction[]{new StageAction(filename,view)});
 			}
 
 			@Override

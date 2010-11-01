@@ -1,15 +1,17 @@
 package ggit.status.modified;
 
 import ggit.Config;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class CheckoutAction extends Action {
+public class CheckoutAction extends StatusAction{
 
 	private final String filename;
 
-	public CheckoutAction(String filename) {
+	public CheckoutAction(String filename, StatusView view) {
+		super(view);
 		this.filename = filename;
 		setText("Checkout");
 	}

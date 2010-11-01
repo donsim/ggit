@@ -1,5 +1,7 @@
 package ggit.status;
 
+import ggit.views.StatusView;
+
 import java.util.Collection;
 
 import org.eclipse.jface.action.Action;
@@ -23,7 +25,7 @@ public abstract class FileItem {
 		this.shortStatus = shortStatus;
 	}
 
-	public abstract Collection<Action> availableActions();
+	public abstract Collection<StatusAction> availableActions(StatusView view);
 
 	public String getFileName() {
 		return fileName;

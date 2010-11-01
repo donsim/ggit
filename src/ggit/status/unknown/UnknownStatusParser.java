@@ -2,11 +2,11 @@ package ggit.status.unknown;
 
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
 import java.util.Arrays;
 import java.util.Collection;
-
-import org.eclipse.jface.action.Action;
 
 public class UnknownStatusParser extends SimpleStatusParser {
 
@@ -19,8 +19,8 @@ public class UnknownStatusParser extends SimpleStatusParser {
 		return new FileItem(filename, "untracked", getStatusChars()) {
 
 			@Override
-			public Collection<Action> availableActions() {
-				return Arrays.asList(new Action[] { new AddAction(filename) });
+			public Collection<StatusAction> availableActions(StatusView view) {
+				return Arrays.asList(new StatusAction[] { new AddAction(filename,view) });
 			}
 
 			@Override

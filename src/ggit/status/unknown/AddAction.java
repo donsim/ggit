@@ -1,14 +1,15 @@
 package ggit.status.unknown;
 
 import ggit.Config;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
-import org.eclipse.jface.action.Action;
-
-public class AddAction extends Action {
+public class AddAction extends StatusAction {
 
 	private final String filename;
 
-	public AddAction(String filename) {
+	public AddAction(String filename, StatusView view) {
+		super(view);
 		this.filename = filename;
 		setText("Add");
 	}

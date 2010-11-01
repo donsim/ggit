@@ -1,14 +1,15 @@
 package ggit.status.modified;
 
 import ggit.Config;
+import ggit.status.StatusAction;
+import ggit.views.StatusView;
 
-import org.eclipse.jface.action.Action;
-
-public class UnStageAction extends Action {
+public class UnStageAction extends StatusAction{
 
 	private final String filename;
 
-	public UnStageAction(String filename) {
+	public UnStageAction(String filename, StatusView view) {
+		super(view);
 		this.filename = filename;
 		setText("Unstage");
 	}
