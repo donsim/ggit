@@ -20,7 +20,8 @@ public class ModifiedInIndexAndInWorkDirParser extends SimpleStatusParser {
 			@Override
 			public Collection<FileAction> availableActions() {
 				return Arrays.asList(new FileAction[]{
-					new StageAction(filename)
+					new StageAction(filename),
+					new CheckoutAction(filename,true),
 				}
 				);
 			}

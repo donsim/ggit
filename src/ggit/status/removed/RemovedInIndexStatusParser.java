@@ -22,7 +22,7 @@ public class RemovedInIndexStatusParser extends SimpleStatusParser {
 			public Collection<FileAction> availableActions() {
 				return Arrays.asList(new FileAction[] {
 						new StageAction(filename),
-						new CheckoutAction(filename) });
+						new CheckoutAction(filename,true) });
 			}
 
 			@Override

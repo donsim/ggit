@@ -14,5 +14,9 @@ public class FileAction extends Action {
 	public String getFileName() {
 		return fileName;
 	}
+	
+	public boolean refreshRequired(){
+		return true;
+	}
 
 }

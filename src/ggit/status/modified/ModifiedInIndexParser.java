@@ -21,7 +21,7 @@ public class ModifiedInIndexParser extends SimpleStatusParser {
 			public Collection<FileAction> availableActions() {
 				return Arrays.asList(new FileAction[]{
 					new UnStageAction(filename),
-					new CheckoutAction(filename),
+					new CheckoutAction(filename,true),
 					new DiffAction(filename,true)
 				}
 				);

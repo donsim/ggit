@@ -5,17 +5,24 @@ import ggit.status.FileAction;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class CheckoutAction extends FileAction{
+public class CheckoutAction extends FileAction {
 
-	public CheckoutAction(String filename) {
-		super(filename,"Checkout");
+	private final boolean againstHead;
+
+	public CheckoutAction(String filename, boolean againstHead) {
+		super(filename, "Checkout");
+		this.againstHead = againstHead;
 	}
 
 	@Override
 	public void run() {
 		if (MessageDialog.openConfirm(null, "Warning",
 				"Changes in file will be lost")) {
-			Config.execGit("checkout", "HEAD", getFileName());
+			if (againstHead) {
+				Config.execGit("checkout", "HEAD", getFileName());
+			} else {
+				Config.execGit("checkout", "HEAD", getFileName());
+			}
 		}
 	}
 }

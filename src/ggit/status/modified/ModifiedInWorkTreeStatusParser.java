@@ -21,7 +21,8 @@ public class ModifiedInWorkTreeStatusParser extends SimpleStatusParser {
 			public Collection<FileAction> availableActions() {
 				return Arrays.asList(new FileAction[]{
 					new StageAction(filename),
-					new DiffAction(filename,false)
+					new DiffAction(filename,false),
+					new CheckoutAction(filename,false)
 				}
 				);
 			}

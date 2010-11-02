@@ -327,7 +327,11 @@ public class StatusView extends ViewPart {
 		IStructuredSelection selection3 = (IStructuredSelection) viewer.getSelection();
 		ArrayList<Action> actions = getActionsForSelection(selection3);
 		for (Action action : actions) {
-			manager.add( new RefreshViewActionWrapper(action,this));
+			if( (action instanceof FileAction) && !((FileAction)action).refreshRequired()) {
+				manager.add( action);
+			} else {
+				manager.add( new RefreshViewActionWrapper(action,this));
+			}
 		}
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));

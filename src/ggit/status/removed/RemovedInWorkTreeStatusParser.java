@@ -21,7 +21,7 @@ public class RemovedInWorkTreeStatusParser extends SimpleStatusParser {
 			public Collection<FileAction> availableActions() {
 				return Arrays.asList(new FileAction[] {
 						new RemoveAction(filename),
-						new CheckoutAction(filename) });
+						new CheckoutAction(filename,false) });
 			}
 
 			@Override

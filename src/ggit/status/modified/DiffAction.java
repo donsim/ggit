@@ -19,7 +19,7 @@ public class DiffAction extends FileAction {
 	private final boolean againstHead;
 
 	public DiffAction(String filename, boolean againstHead) {
-		super(filename,"Diff");
+		super(filename, "Diff");
 		this.againstHead = againstHead;
 	}
 
@@ -27,40 +27,49 @@ public class DiffAction extends FileAction {
 	public void run() {
 		final String execGit;
 		if (againstHead) {
-			execGit = Config.execGit("diff","HEAD",getFileName());
-		}else
-		{
-			execGit = Config.execGit("diff",getFileName());
+			execGit = Config.execGit("diff", "HEAD", getFileName());
+		} else {
+			execGit = Config.execGit("diff", getFileName());
 		}
-		//MessageDialog.openInformation(null, "Diff for "+getFileName(), execGit);
-		IconAndMessageDialog iconAndMessageDialog = new MessageDialog(null,"Diff for "+getFileName(), null,execGit,0,new String[]{"OK"},0)
-		{
+		// MessageDialog.openInformation(null, "Diff for "+getFileName(),
+		// execGit);
+		IconAndMessageDialog iconAndMessageDialog = new MessageDialog(null,
+				"Diff for " + getFileName(), null, execGit, 0,
+				new String[] { "OK" }, 0) {
 			@Override
 			protected Control createMessageArea(Composite composite) {
-				StyledText text2 = new StyledText(composite, SWT.MULTI | SWT.WRAP);
+				StyledText text2 = new StyledText(composite, SWT.MULTI
+						| SWT.WRAP);
 				StringBuilder sb = new StringBuilder();
 				ArrayList<StyleRange> styles = new ArrayList<StyleRange>();
-				StringTokenizer stringTokenizer = new StringTokenizer(execGit,"\n\r",false);
-				while(stringTokenizer.hasMoreTokens())
-				{
+				StringTokenizer stringTokenizer = new StringTokenizer(execGit,
+						"\n\r", false);
+				while (stringTokenizer.hasMoreTokens()) {
 					String line = stringTokenizer.nextToken();
-					if( line.startsWith("-"))
-					{
-						styles.add(new StyleRange(sb.length(),line.length(), composite.getShell().getDisplay().getSystemColor(SWT.COLOR_RED),null));
+					if (line.startsWith("-")) {
+						styles.add(new StyleRange(sb.length(), line.length(),
+								composite.getShell().getDisplay()
+										.getSystemColor(SWT.COLOR_RED), null));
 					}
-					if( line.startsWith("+"))
-					{
-						styles.add(new StyleRange(sb.length(),line.length(), composite.getShell().getDisplay().getSystemColor(SWT.COLOR_GREEN),null));
+					if (line.startsWith("+")) {
+						styles.add(new StyleRange(sb.length(), line.length(),
+								composite.getShell().getDisplay()
+										.getSystemColor(SWT.COLOR_GREEN), null));
 					}
 					sb.append(line);
 					sb.append("\n");
 				}
 
 				text2.setText(sb.toString());
-				text2.setStyleRanges(styles.toArray(new StyleRange[styles.size()]));
+				text2.setStyleRanges(styles.toArray(new StyleRange[styles
+						.size()]));
 				return composite;
 			}
 		};
 		iconAndMessageDialog.open();
+	}
+
+	public boolean refreshRequired() {
+		return false;
 	}
 }
