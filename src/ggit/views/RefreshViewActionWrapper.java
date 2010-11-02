@@ -1,6 +1,8 @@
 package ggit.views;
 
 
+import ggit.status.FileAction;
+
 import org.eclipse.jface.action.Action;
 
 public class RefreshViewActionWrapper extends Action {
@@ -21,7 +23,10 @@ public class RefreshViewActionWrapper extends Action {
 	@Override
 	public void run() {
 		old.run();
-		view.updateStatus();
+		boolean refreshRequired = old instanceof FileAction  && ((FileAction) old).refreshRequired();
+		if (refreshRequired) {
+			view.updateStatus();
+		}
 	}
 
 }

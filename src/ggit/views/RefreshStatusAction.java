@@ -3,15 +3,13 @@
  */
 package ggit.views;
 
-import java.util.List;
-
 import ggit.Activator;
 import ggit.Config;
 import ggit.status.Status;
 
+import java.util.List;
+
 import org.eclipse.jface.action.Action;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
 public class RefreshStatusAction extends Action{
 	private final class UpdateStatusRunnable implements Runnable {

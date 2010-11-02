@@ -27,9 +27,9 @@ public class DiffAction extends FileAction {
 	public void run() {
 		final String execGit;
 		if (againstHead) {
-			execGit = Config.execGit("diff", "HEAD", getFileName());
+			execGit = Config.execGit("diff", "HEAD","-b", getFileName());
 		} else {
-			execGit = Config.execGit("diff", getFileName());
+			execGit = Config.execGit("diff", "-b",getFileName());
 		}
 		// MessageDialog.openInformation(null, "Diff for "+getFileName(),
 		// execGit);
