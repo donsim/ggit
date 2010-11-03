@@ -327,7 +327,7 @@ public class StatusView extends ViewPart {
 		IStructuredSelection selection3 = (IStructuredSelection) viewer.getSelection();
 		ArrayList<Action> actions = getActionsForSelection(selection3);
 		for (Action action : actions) {
-				manager.add( new RefreshViewActionWrapper(action,this));
+				manager.add( action);
 		}
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -360,7 +360,12 @@ public class StatusView extends ViewPart {
 			actions.add(refreshAction);
 			actions.add(commitAction);
 		}
-		return actions;
+		ArrayList<Action> ret = new ArrayList<Action>();
+		for (Action action : actions) {
+				ret.add( new RefreshViewActionWrapper(action,this));
+		}
+
+		return ret;
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {

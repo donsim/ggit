@@ -7,13 +7,13 @@ import java.util.Map;
 
 import org.eclipse.jface.action.Action;
 
-public class CompositeAction  extends Action{
+public class CompositeAction  extends FileAction{
 
 
 	private Collection<Action> actions=new ArrayList<Action>();
 
 	public CompositeAction(Action action) {
-		setText(action.getText()+"*");
+		super("",action.getText()+"*");
 		addAction(action);
 	}
 
