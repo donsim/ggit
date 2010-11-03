@@ -47,7 +47,7 @@ public class Config {
 			}
 			// what to do with bad result ?
 			if( result != 0){
-				throw new RuntimeException("Process"+cmdLine[0]+" return not 0"+result);
+				throw new RuntimeException("Process"+cmdLine[0]+" return not 0 "+result+stringBuilder.toString());
 			}
 			return stringBuilder.toString();
 		} catch (IOException e) {

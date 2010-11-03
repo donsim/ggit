@@ -22,10 +22,15 @@ public class RefreshViewActionWrapper extends Action {
 
 	@Override
 	public void run() {
-		old.run();
-		boolean refreshRequired = old instanceof FileAction  && ((FileAction) old).refreshRequired();
-		if (refreshRequired) {
-			view.updateStatus();
+		try
+		{
+			old.run();
+		}finally
+		{
+			boolean refreshRequired = old instanceof FileAction  && ((FileAction) old).refreshRequired();
+			if (refreshRequired) {
+				view.updateStatus();
+			}
 		}
 	}
 
