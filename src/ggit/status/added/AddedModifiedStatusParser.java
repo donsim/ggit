@@ -1,5 +1,6 @@
 package ggit.status.added;
 
+import ggit.OpenInEditor;
 import ggit.status.FileAction;
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
@@ -21,7 +22,12 @@ public class AddedModifiedStatusParser extends SimpleStatusParser {
 
 			@Override
 			public Collection<FileAction> availableActions() {
-				return Arrays.asList(new FileAction[]{new StageAction(filename)});
+				return Arrays.asList(
+
+						new FileAction[]{
+								new StageAction(filename),
+								new OpenInEditor(filename)
+						});
 			}
 
 			@Override

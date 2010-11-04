@@ -119,8 +119,11 @@ public class StatusView extends ViewPart {
 
 		@Override
 		public Object getParent(Object element) {
-			FileItem fi= (FileItem) element;
-			return fi.isCommitable()?COMMITABLE:NOT_COMMITABLE;
+			if (element instanceof FileItem) {
+				FileItem fi = (FileItem) element;
+				return fi.isCommitable()?COMMITABLE:NOT_COMMITABLE;
+			}
+			return null;
 		}
 
 		@Override

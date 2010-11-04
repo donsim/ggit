@@ -1,5 +1,6 @@
 package ggit.status.modified;
 
+import ggit.OpenInEditor;
 import ggit.status.FileAction;
 import ggit.status.FileItem;
 import ggit.status.SimpleStatusParser;
@@ -20,6 +21,7 @@ public class ModifiedInIndexAndInWorkDirParser extends SimpleStatusParser {
 			@Override
 			public Collection<FileAction> availableActions() {
 				return Arrays.asList(new FileAction[]{
+					new OpenInEditor(filename),
 					new StageAction(filename),
 					new CheckoutAction(filename,true),
 				}
