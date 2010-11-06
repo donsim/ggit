@@ -15,12 +15,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
-public class DiffAction extends FileAction {
+public class DiffInEditorAction extends FileAction {
 
 	private final boolean againstHead;
 
-	public DiffAction(String filename, boolean againstHead) {
-		super(filename, "Diff Text");
+	public DiffInEditorAction(String filename, boolean againstHead) {
+		super(filename, "Diff Structure");
 		this.againstHead = againstHead;
 	}
 
