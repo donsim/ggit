@@ -345,7 +345,12 @@ public class StatusView extends ViewPart {
 			Object[] array = selection3.toArray();
 			if( array.length==1 && array[0] instanceof String)
 			{
+				String string = (String) array[0];
 				array = ((ITreeContentProvider) viewer.getContentProvider()).getChildren(array[0]);
+				if( COMMITABLE.equals(string))
+				{
+					actions.add(commitAction);
+				}
 			}
 			ArrayList<Action> all = new ArrayList<Action>();
 			for (Object o : array) {
