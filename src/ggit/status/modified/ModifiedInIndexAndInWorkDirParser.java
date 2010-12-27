@@ -24,6 +24,7 @@ public class ModifiedInIndexAndInWorkDirParser extends SimpleStatusParser {
 					new OpenInEditor(filename),
 					new StageAction(filename),
 					new CheckoutAction(filename,true),
+					new DiffAction(filename,true)
 				}
 				);
 			}
